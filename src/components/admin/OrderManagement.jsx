@@ -249,12 +249,7 @@ export default function Component() {
                   <td className="p-2">
                     {new Date(order.placed_at).toLocaleDateString()}
                   </td>
-                  <td className="p-2">
-                    ₹
-                    {order.order_items
-                      .reduce((total, item) => total + item.total_price, 0)
-                      .toFixed(2)}
-                  </td>
+                  <td className="p-2">₹{order.order_total.toFixed(2)}</td>
                   <td className="p-2">
                     <button
                       onClick={() => {
