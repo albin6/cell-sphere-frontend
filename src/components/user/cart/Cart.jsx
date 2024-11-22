@@ -59,7 +59,9 @@ const Cart = () => {
 
   let subtotal;
   if (cart?.items) {
-    subtotal = cart?.totalAmount;
+    subtotal = cart?.items.reduce((acc, curr) => {
+      return acc + curr.totalPrice;
+    }, 0);
   }
   const shipping = 0; // Free shipping
   const total = cart + shipping;
