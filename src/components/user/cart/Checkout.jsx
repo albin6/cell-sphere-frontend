@@ -196,7 +196,10 @@ export default function CheckoutPage() {
       : Number(amountAfterApplyingCoupon).toFixed(2)
     : Number(amountAfterApplyingCoupon) || Number(cart?.totalAmount);
 
-  console.log("total for cod =>", final);
+  console.log("total == =>", total);
+  if (cart?.totalAmount) {
+    console.log("this is cart total amount ===>", cart?.totalAmount);
+  }
   if (isLoading) {
     return <h3>Loading...</h3>;
   }
