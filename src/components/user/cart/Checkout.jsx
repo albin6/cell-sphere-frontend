@@ -110,9 +110,10 @@ export default function CheckoutPage() {
 
   if (products?.items) {
     subtotal = products.items.reduce(
-      (sum, product) => sum + product.totalPrice * product.quantity,
+      (acc, curr) => acc + curr.totalPrice * curr.quantity,
       0
     );
+    console.log("this is subtotal of cart items ==>", subtotal);
   }
   const shipping = 0;
   const total = subtotal + shipping;
