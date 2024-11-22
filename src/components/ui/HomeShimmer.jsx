@@ -23,6 +23,18 @@ export default function SmartphoneStoreShimmer() {
             ))}
           </div>
         </div>
+
+        <div className="mt-16">
+          <div className="h-8 bg-gray-200 rounded-full max-w-sm mb-8"></div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="flex flex-col items-center space-y-2">
+                <div className="w-16 h-16 bg-gray-200 rounded"></div>
+                <div className="h-4 bg-gray-200 rounded w-28"></div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Shimmer effect overlay */}
