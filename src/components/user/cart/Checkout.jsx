@@ -17,6 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Paypal from "../paypal-payment/Paypal";
 import { applyCoupon } from "../../../utils/coupon/couponCRUD";
 import AvailableCouponModal from "./AvailableCouponModal";
+import { axiosInstance } from "../../../config/axiosInstance";
 
 const useQueryParams = () => {
   return new URLSearchParams(useLocation().search);
@@ -126,7 +127,23 @@ export default function CheckoutPage() {
         position: "top-center",
       });
     } else {
-      setIsOrderSummaryModalOpen(true);
+      const order_data = {
+        order_items: cart.items.map((item) => ({
+          product: item.product._id,
+          variant: item.variant,
+          quantity: item.quantity,
+        })),
+      };
+      axiosInstance
+        .post("/product/quantity", {
+          order_data,
+        })
+        .then((response) => {
+          if (response.data.success) {
+            setIsOrderSummaryModalOpen(true);
+          }
+        })
+        .catch((error) => toast.error(error.response.data.message));
     }
   };
 
