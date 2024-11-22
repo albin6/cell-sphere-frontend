@@ -426,7 +426,7 @@ export default function CheckoutPage() {
             <div className="border-t pt-4 mt-4">
               <div className="flex justify-between mb-2">
                 <span>Subtotal:</span>
-                <span>₹{cart?.totalAmount.toFixed(2)}</span>
+                <span>₹{total.toFixed(2)}</span>
               </div>
               <div className="flex justify-between mb-2">
                 <span>Shipping:</span>
@@ -437,9 +437,7 @@ export default function CheckoutPage() {
                   <div className="flex justify-between mb-2">
                     <span>Amount after applying coupon:</span>
                     <span>
-                      {(
-                        cart?.totalAmount - discountAfterApplyingCoupon
-                      ).toFixed(2)}
+                      {(total - discountAfterApplyingCoupon).toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between mb-2">
@@ -453,8 +451,8 @@ export default function CheckoutPage() {
                 <span>
                   ₹
                   {(!isCouponApplied
-                    ? cart?.totalAmount
-                    : cart?.totalAmount - discountAfterApplyingCoupon
+                    ? total
+                    : total - discountAfterApplyingCoupon
                   ).toFixed(2)}
                 </span>
               </div>
