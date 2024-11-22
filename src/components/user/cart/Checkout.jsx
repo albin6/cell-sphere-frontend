@@ -117,8 +117,8 @@ export default function CheckoutPage() {
   const total = subtotal + shipping;
 
   const handlePlaceOrder = () => {
-    console.log(selectedAddress, paymentMethod);
-    if (!selectedAddress) {
+    console.log(addresses[selectedAddress], paymentMethod);
+    if (!addresses[selectedAddress]) {
       return toast.error("please choose an address", {
         position: "top-center",
       });
