@@ -94,7 +94,7 @@ const Cart = () => {
           )}
           {cart?.items && cart?.items.length > 0 && (
             <div className="text-right font-semibold text-xl mt-4">
-              Total: ₹{Number(total).toFixed(2)}
+              Total: ₹{Number(cart?.totalAmount).toFixed(2)}
             </div>
           )}
         </div>
@@ -105,7 +105,7 @@ const Cart = () => {
             <div className="flex justify-between mb-2">
               <span>Subtotal:</span>
 
-              <span>₹{Number(total).toFixed(2)}</span>
+              <span>₹{Number(cart?.totalAmount).toFixed(2)}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span>Discount:</span>
@@ -124,7 +124,7 @@ const Cart = () => {
             <div className="flex justify-between font-semibold text-lg mt-4">
               <span>Total:</span>
 
-              <span>₹{Number(total).toFixed(2)}</span>
+              <span>₹{Number(cart?.totalAmount).toFixed(2)}</span>
             </div>
 
             {(stock && stock.length !== 0) ||
