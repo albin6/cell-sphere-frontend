@@ -66,6 +66,8 @@ const Cart = () => {
   const shipping = 0; // Free shipping
   const total = cart + shipping;
 
+  console.log("this is total==>", total, typeof total);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center text-sm text-gray-600 mb-6">
@@ -92,7 +94,7 @@ const Cart = () => {
           )}
           {cart?.items && cart?.items.length > 0 && (
             <div className="text-right font-semibold text-xl mt-4">
-              Total: ₹{total.toFixed(2)}
+              Total: ₹{Number(total).toFixed(2)}
             </div>
           )}
         </div>
@@ -122,7 +124,7 @@ const Cart = () => {
             <div className="flex justify-between font-semibold text-lg mt-4">
               <span>Total:</span>
 
-              <span>₹{total.toFixed(2)}</span>
+              <span>₹{Number(total).toFixed(2)}</span>
             </div>
 
             {(stock && stock.length !== 0) ||
