@@ -103,7 +103,7 @@ const Cart = () => {
             <div className="flex justify-between mb-2">
               <span>Subtotal:</span>
 
-              <span>₹{total.toFixed(2)}</span>
+              <span>₹{Number(total).toFixed(2)}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span>Discount:</span>
