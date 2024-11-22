@@ -116,7 +116,18 @@ export default function CheckoutPage() {
   const total = subtotal + shipping;
 
   const handlePlaceOrder = () => {
-    setIsOrderSummaryModalOpen(true);
+    console.log(selectedAddress, paymentMethod);
+    if (!selectedAddress) {
+      return toast.error("please choose an address", {
+        position: "top-center",
+      });
+    } else if (!paymentMethod) {
+      return toast.error("please choose a payment method", {
+        position: "top-center",
+      });
+    } else {
+      setIsOrderSummaryModalOpen(true);
+    }
   };
 
   const handleApplyCoupon = () => {
