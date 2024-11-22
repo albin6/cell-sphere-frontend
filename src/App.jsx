@@ -1,264 +1,282 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import LoginPage from "./pages/user/LoginPage";
-import SignupPage from "./pages/user/SignupPage";
-import AdminLogin from "./pages/admin/AdminLogin";
-import Homepage from "./pages/user/Homepage";
-import RequireNoAuthentication from "./private/user/RequireNoAuthentication";
 import { useSelector } from "react-redux";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import UsersList from "./pages/admin/UsersList";
-import Category from "./pages/admin/Category";
-import ProductList from "./pages/admin/ProductList";
+
+// Import components that are used in the router directly
+import RequireNoAuthentication from "./private/user/RequireNoAuthentication";
 import RequireAuth from "./private/admin/RequireAuth";
-import Brand from "./pages/admin/Brand";
-import AddProduct from "./pages/admin/AddProduct";
-import EditProduct from "./pages/admin/EditProduct";
-import NewPassword from "./components/user/NewPassword";
-import ForgotPassword from "./components/user/ForgotPassword";
-import ProductDetailsPage from "./pages/user/ProductDetailsPage";
 import RequireAuthentication from "./private/user/RequireAuthentication";
-import ProductListingPage from "./pages/user/ProductListingPage";
-import CategoryListingPage from "./pages/user/CategoryListingPage";
-import BrandListingPage from "./pages/user/BrandListingPage";
-import WishlistPage from "./pages/user/WishlistPage";
-import UserProfile from "./pages/user/UserProfile";
-import OrderDetailsPage from "./pages/user/OrderDetailsPage";
-import ResetPassword from "./pages/user/ResetPassword";
-import CartPage from "./pages/user/CartPage";
-import CheckoutPage from "./pages/user/CheckoutPage";
-import OrderManagementPage from "./pages/admin/OrderManagementPage";
-import CouponManagementPage from "./pages/admin/CouponManagementPage";
-import ContactPage from "./pages/user/ContactPage";
-import AboutPage from "./pages/user/AboutPage";
-import SalesReport from "./components/admin/SalesReport";
-import OfferModulePage from "./pages/admin/OfferModulePage";
-import SalesReportPage from "./pages/admin/SalesReportPage";
-import BannerManagementPage from "./pages/admin/BannerManagementPage";
 import Chat from "./services/Chat";
-import ReferralCode from "./components/user/ReferralCode";
+import LoadingFallback from "./components/lazy/LoadingFallback";
+
+// Lazy load all other components
+const LoginPage = lazy(() => import("./pages/user/LoginPage"));
+const SignupPage = lazy(() => import("./pages/user/SignupPage"));
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const Homepage = lazy(() => import("./pages/user/Homepage"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const UsersList = lazy(() => import("./pages/admin/UsersList"));
+const Category = lazy(() => import("./pages/admin/Category"));
+const ProductList = lazy(() => import("./pages/admin/ProductList"));
+const Brand = lazy(() => import("./pages/admin/Brand"));
+const AddProduct = lazy(() => import("./pages/admin/AddProduct"));
+const EditProduct = lazy(() => import("./pages/admin/EditProduct"));
+const NewPassword = lazy(() => import("./components/user/NewPassword"));
+const ForgotPassword = lazy(() => import("./components/user/ForgotPassword"));
+const ProductDetailsPage = lazy(() =>
+  import("./pages/user/ProductDetailsPage")
+);
+const ProductListingPage = lazy(() =>
+  import("./pages/user/ProductListingPage")
+);
+const CategoryListingPage = lazy(() =>
+  import("./pages/user/CategoryListingPage")
+);
+const BrandListingPage = lazy(() => import("./pages/user/BrandListingPage"));
+const WishlistPage = lazy(() => import("./pages/user/WishlistPage"));
+const UserProfile = lazy(() => import("./pages/user/UserProfile"));
+const OrderDetailsPage = lazy(() => import("./pages/user/OrderDetailsPage"));
+const ResetPassword = lazy(() => import("./pages/user/ResetPassword"));
+const CartPage = lazy(() => import("./pages/user/CartPage"));
+const CheckoutPage = lazy(() => import("./pages/user/CheckoutPage"));
+const OrderManagementPage = lazy(() =>
+  import("./pages/admin/OrderManagementPage")
+);
+const CouponManagementPage = lazy(() =>
+  import("./pages/admin/CouponManagementPage")
+);
+const ContactPage = lazy(() => import("./pages/user/ContactPage"));
+const AboutPage = lazy(() => import("./pages/user/AboutPage"));
+const SalesReport = lazy(() => import("./components/admin/SalesReport"));
+const OfferModulePage = lazy(() => import("./pages/admin/OfferModulePage"));
+const SalesReportPage = lazy(() => import("./pages/admin/SalesReportPage"));
+const BannerManagementPage = lazy(() =>
+  import("./pages/admin/BannerManagementPage")
+);
+const ReferralCode = lazy(() => import("./components/user/ReferralCode"));
 
 function AppLayout() {
   const admin = useSelector((state) => state.admin.adminInfo);
   return (
-    <Routes>
-      {/* --------------------------------------------------- */}
-      {/* --------------------  users     ------------------- */}
-      {/* --------------------------------------------------- */}
-      <Route
-        path="/referral"
-        element={
-          <RequireAuthentication>
-            <ReferralCode />
-          </RequireAuthentication>
-        }
-      />
-      <Route path="/" element={<Homepage />} />
-      <Route
-        path="/login"
-        element={
-          <RequireNoAuthentication>
-            <LoginPage />
-          </RequireNoAuthentication>
-        }
-      />
-      <Route
-        path="/signup"
-        element={
-          <RequireNoAuthentication>
-            <SignupPage />
-          </RequireNoAuthentication>
-        }
-      />
-      <Route path="/users/forgot-password" element={<ForgotPassword />} />
-      <Route path="/users/reset-password/:id" element={<NewPassword />} />
-      <Route
-        path="/product/:id"
-        element={
-          <RequireAuthentication>
-            <ProductDetailsPage />
-          </RequireAuthentication>
-        }
-      />
-      <Route
-        path="/products/categories/:categoryId"
-        element={
-          <RequireAuthentication>
-            <CategoryListingPage />
-          </RequireAuthentication>
-        }
-      />
-      <Route
-        path="/products/brands/:brandId"
-        element={
-          <RequireAuthentication>
-            <BrandListingPage />
-          </RequireAuthentication>
-        }
-      />
-      <Route
-        path="/products/list"
-        element={
-          <RequireAuthentication>
-            <ProductListingPage />
-          </RequireAuthentication>
-        }
-      />
-      <Route
-        path="/wishlist"
-        element={
-          <RequireAuthentication>
-            <WishlistPage />
-          </RequireAuthentication>
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <RequireAuthentication>
-            <UserProfile />
-          </RequireAuthentication>
-        }
-      />
-      <Route
-        path="/profile/orders/:orderId"
-        element={
-          <RequireAuthentication>
-            <OrderDetailsPage />
-          </RequireAuthentication>
-        }
-      />
-      <Route
-        path="/profile/reset-password"
-        element={
-          <RequireAuthentication>
-            <ResetPassword />
-          </RequireAuthentication>
-        }
-      />
-      <Route
-        path="/cart"
-        element={
-          <RequireAuthentication>
-            <CartPage />
-          </RequireAuthentication>
-        }
-      />
-      <Route
-        path="/checkout"
-        element={
-          <RequireAuthentication>
-            <CheckoutPage />
-          </RequireAuthentication>
-        }
-      />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/about" element={<AboutPage />} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Routes>
+        {/* --------------------------------------------------- */}
+        {/* --------------------  users     ------------------- */}
+        {/* --------------------------------------------------- */}
+        <Route
+          path="/referral"
+          element={
+            <RequireAuthentication>
+              <ReferralCode />
+            </RequireAuthentication>
+          }
+        />
+        <Route path="/" element={<Homepage />} />
+        <Route
+          path="/login"
+          element={
+            <RequireNoAuthentication>
+              <LoginPage />
+            </RequireNoAuthentication>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <RequireNoAuthentication>
+              <SignupPage />
+            </RequireNoAuthentication>
+          }
+        />
+        <Route path="/users/forgot-password" element={<ForgotPassword />} />
+        <Route path="/users/reset-password/:id" element={<NewPassword />} />
+        <Route
+          path="/product/:id"
+          element={
+            <RequireAuthentication>
+              <ProductDetailsPage />
+            </RequireAuthentication>
+          }
+        />
+        <Route
+          path="/products/categories/:categoryId"
+          element={
+            <RequireAuthentication>
+              <CategoryListingPage />
+            </RequireAuthentication>
+          }
+        />
+        <Route
+          path="/products/brands/:brandId"
+          element={
+            <RequireAuthentication>
+              <BrandListingPage />
+            </RequireAuthentication>
+          }
+        />
+        <Route
+          path="/products/list"
+          element={
+            <RequireAuthentication>
+              <ProductListingPage />
+            </RequireAuthentication>
+          }
+        />
+        <Route
+          path="/wishlist"
+          element={
+            <RequireAuthentication>
+              <WishlistPage />
+            </RequireAuthentication>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuthentication>
+              <UserProfile />
+            </RequireAuthentication>
+          }
+        />
+        <Route
+          path="/profile/orders/:orderId"
+          element={
+            <RequireAuthentication>
+              <OrderDetailsPage />
+            </RequireAuthentication>
+          }
+        />
+        <Route
+          path="/profile/reset-password"
+          element={
+            <RequireAuthentication>
+              <ResetPassword />
+            </RequireAuthentication>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <RequireAuthentication>
+              <CartPage />
+            </RequireAuthentication>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <RequireAuthentication>
+              <CheckoutPage />
+            </RequireAuthentication>
+          }
+        />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
 
-      {/* test route */}
-      <Route path="/test" element={<SalesReport />} />
-      {/* test route */}
+        {/* test route */}
+        <Route path="/test" element={<SalesReport />} />
+        {/* test route */}
 
-      {/* --------------------------------------------------- */}
-      {/* --------------------   admin    ------------------- */}
-      {/* --------------------------------------------------- */}
-      <Route
-        path="/admin"
-        element={admin ? <AdminDashboard /> : <AdminLogin />}
-      />
-      <Route
-        path="/admin/users"
-        element={
-          <RequireAuth>
-            <UsersList />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/category"
-        element={
-          <RequireAuth>
-            <Category />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/products"
-        element={
-          <RequireAuth>
-            <ProductList />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/products/add-product"
-        element={
-          <RequireAuth>
-            <AddProduct />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/products/edit-product/:productId"
-        element={
-          <RequireAuth>
-            <EditProduct />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/brand"
-        element={
-          <RequireAuth>
-            <Brand />
-          </RequireAuth>
-        }
-      />
+        {/* --------------------------------------------------- */}
+        {/* --------------------   admin    ------------------- */}
+        {/* --------------------------------------------------- */}
+        <Route
+          path="/admin"
+          element={admin ? <AdminDashboard /> : <AdminLogin />}
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <RequireAuth>
+              <UsersList />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/category"
+          element={
+            <RequireAuth>
+              <Category />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <RequireAuth>
+              <ProductList />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/products/add-product"
+          element={
+            <RequireAuth>
+              <AddProduct />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/products/edit-product/:productId"
+          element={
+            <RequireAuth>
+              <EditProduct />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/brand"
+          element={
+            <RequireAuth>
+              <Brand />
+            </RequireAuth>
+          }
+        />
 
-      <Route
-        path="/admin/orders"
-        element={
-          <RequireAuth>
-            <OrderManagementPage />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/coupons"
-        element={
-          <RequireAuth>
-            <CouponManagementPage />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/offers"
-        element={
-          <RequireAuth>
-            <OfferModulePage />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/sales"
-        element={
-          <RequireAuth>
-            <SalesReportPage />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/banner"
-        element={
-          <RequireAuth>
-            <BannerManagementPage />
-          </RequireAuth>
-        }
-      />
-    </Routes>
+        <Route
+          path="/admin/orders"
+          element={
+            <RequireAuth>
+              <OrderManagementPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/coupons"
+          element={
+            <RequireAuth>
+              <CouponManagementPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/offers"
+          element={
+            <RequireAuth>
+              <OfferModulePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/sales"
+          element={
+            <RequireAuth>
+              <SalesReportPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/banner"
+          element={
+            <RequireAuth>
+              <BannerManagementPage />
+            </RequireAuth>
+          }
+        />
+      </Routes>
+    </Suspense>
   );
 }
 
