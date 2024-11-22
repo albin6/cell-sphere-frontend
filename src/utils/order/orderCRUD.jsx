@@ -33,6 +33,15 @@ export const getOrderDetails = (orderId) => {
   };
 };
 
+export const getOrderDetailsOfUser = (orderId) => {
+  return async function () {
+    const response = await adminAxiosInstance.get(
+      `/api/users/orders/${orderId}`
+    );
+    return response.data.order_data;
+  };
+};
+
 // ============================================================================
 export const getOrders = async ({ currentPage, itemsPerPage }) => {
   const response = await adminAxiosInstance.get("/api/admin/orders", {

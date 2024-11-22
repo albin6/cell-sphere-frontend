@@ -9,6 +9,7 @@ import {
 import {
   cancelOrder,
   getOrderDetails,
+  getOrderDetailsOfUser,
   requestForReturningProduct,
 } from "../../../utils/order/orderCRUD";
 import { FileDown, Loader2 } from "lucide-react";
@@ -28,7 +29,7 @@ const OrderDetails = ({ orderId: propsOrderId }) => {
   const [sku, setSku] = useState(null);
 
   const { data: order_data, refetch } = useOrderDetails(
-    getOrderDetails(orderId)
+    isAdminRoute ? getOrderDetailsOfUser(orderId) : getOrderDetails(orderId)
   );
   const { mutate: cancel_order } = useOrderDetailsMutation(cancelOrder);
   const { mutate: returnRequest } = useOrderDetailsMutation(
