@@ -135,7 +135,7 @@ export default function CheckoutPage() {
         })),
       };
       axiosInstance
-        .post("/product/quantity", {
+        .post("/api/users/product/quantity", {
           order_data,
         })
         .then((response) => {
