@@ -83,7 +83,7 @@ const OrderSummaryModal = ({
           discount:
             item.discount +
             (item?.offer?.offer_value ? item?.offer?.offer_value : 0),
-          total_price: item.totalPrice - coupon || 0,
+          total_price: item.totalPrice,
         })),
         discount: coupon + totalDiscount,
         coupon_discount: coupon,
