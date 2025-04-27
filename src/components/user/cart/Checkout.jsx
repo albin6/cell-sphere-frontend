@@ -134,16 +134,17 @@ export default function CheckoutPage() {
           quantity: item.quantity,
         })),
       };
-      axiosInstance
-        .post("/api/users/product/quantity", {
-          order_data,
-        })
-        .then((response) => {
-          if (response.data.success) {
-            setIsOrderSummaryModalOpen(true);
-          }
-        })
-        .catch((error) => toast.error(error.response.data.message));
+      console.log(order_data);
+      // axiosInstance
+      //   .post("/api/users/product/quantity", {
+      //     order_data,
+      //   })
+      //   .then((response) => {
+      //     if (response.data.success) {
+      setIsOrderSummaryModalOpen(true);
+      //   }
+      // })
+      // .catch((error) => toast.error(error.response.data.message));
     }
   };
 
